@@ -1,4 +1,8 @@
-"""Backend tests for SentinelX Sprint 2 — Authentication, JWT & RBAC."""
+import sys
+from pathlib import Path
+
+# Add backend directory to sys.path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
 from fastapi.testclient import TestClient
@@ -7,6 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app.main import app
+
 from app.db.session import Base
 from app.core.config import settings
 from app.core.security import (
