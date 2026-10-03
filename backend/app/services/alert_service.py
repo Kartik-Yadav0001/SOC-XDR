@@ -93,8 +93,14 @@ def list_alerts(
     return query.order_by(Alert.created_at.desc()).offset(skip).limit(limit).all()
 
 
+VALID_ALERT_STATUSES = ["NEW", "ACKNOWLEDGED", "INVESTIGATING", "RESOLVED", "FALSE_POSITIVE"]
+
+
 def update_alert_status(db: Session, alert_id: int, status: str) -> Optional[Alert]:
     """Update alert status (ACKNOWLEDGED, INVESTIGATING, RESOLVED, FALSE_POSITIVE)."""
+    if status not in VALID_ALERT_STATUSES:
+        raise ValueError(f"Invalid alert status '{status}'. Valid options: {VALID_ALERT_STATUSES}")
+
     alert = get_alert(db, alert_id)
     if alert:
         alert.status = status
@@ -103,6 +109,7 @@ def update_alert_status(db: Session, alert_id: int, status: str) -> Optional[Ale
         db.refresh(alert)
         logger.info("alert_status_updated", alert_id=alert.alert_id, status=status)
     return alert
+
 
 
 def get_alert_counts(db: Session) -> Dict[str, int]:
