@@ -49,3 +49,14 @@ def update_user_last_login(db: Session, user_id: int) -> Optional[User]:
         db.commit()
         db.refresh(user)
     return user
+
+
+def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
+    """Authenticate a user by username and password."""
+    from app.core.security import verify_password
+    user = get_user_by_username(db, username)
+    if not user:
+        return None
+    if not verify_password(password, user.password_hash):
+        return None
+    return user
