@@ -17,8 +17,11 @@ from app.core.config import settings
 from app.core.logging import configure_logging
 from app.api.health.router import health_router
 from app.api.auth.router import auth_router
+from app.api.events.router import events_router
+from app.api.agents.router import agents_router
 from app.db.session import Base, engine
 from app.db.init_db import init_database
+
 
 
 # Configure structured logging
@@ -78,6 +81,9 @@ app.add_middleware(
 # Include routers
 app.include_router(health_router, prefix="/api/v1", tags=["health"])
 app.include_router(auth_router, prefix="/api/v1", tags=["auth"])
+app.include_router(events_router, prefix="/api/v1", tags=["events"])
+app.include_router(agents_router, prefix="/api/v1", tags=["agents"])
+
 
 
 

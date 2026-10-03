@@ -11,14 +11,27 @@ from app.core.logging import logger
 
 def create_event(db: Session, event_data: Dict[str, Any]) -> SecurityEvent:
     """Store a normalized security event."""
+    ts = event_data.get("timestamp")
+    if isinstance(ts, str):
+        try:
+            ts_clean = ts.replace("Z", "+00:00")
+            timestamp_obj = datetime.fromisoformat(ts_clean)
+        except ValueError:
+            timestamp_obj = datetime.now(timezone.utc)
+    elif isinstance(ts, datetime):
+        timestamp_obj = ts
+    else:
+        timestamp_obj = datetime.now(timezone.utc)
+
     event = SecurityEvent(
-        timestamp=datetime.fromisoformat(event_data.get("timestamp", datetime.now(timezone.utc).isoformat())),
+        timestamp=timestamp_obj,
         event_id=event_data["event_id"],
         source_type=event_data.get("source", {}).get("type", "unknown"),
         source_name=event_data.get("source", {}).get("hostname"),
         endpoint_id=event_data.get("endpoint_id"),
         event_type=event_data.get("event", {}).get("type", "unknown"),
         severity=event_data.get("event", {}).get("severity", "medium"),
+
         username=event_data.get("principal", {}).get("username"),
         source_ip=event_data.get("network", {}).get("source_ip"),
         destination_ip=event_data.get("network", {}).get("destination_ip"),
