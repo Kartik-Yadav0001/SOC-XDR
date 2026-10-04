@@ -27,6 +27,7 @@ from app.api.incidents.router import router as incidents_router
 from app.api.soar.router import router as soar_router
 from app.api.intel.router import router as intel_router
 from app.api.search.router import router as search_router
+from app.api.tenants.router import router as tenants_router
 from app.db.session import Base, engine
 from app.db.init_db import init_database
 
@@ -101,6 +102,7 @@ app.include_router(incidents_router, prefix="/api/v1", tags=["incidents"])
 app.include_router(soar_router, prefix="/api/v1", tags=["soar"])
 app.include_router(intel_router, prefix="/api/v1", tags=["intel"])
 app.include_router(search_router, prefix="/api/v1", tags=["search"])
+app.include_router(tenants_router, prefix="/api/v1", tags=["tenants"])
 
 
 
