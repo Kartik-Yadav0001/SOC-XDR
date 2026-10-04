@@ -23,6 +23,7 @@ from app.api.detections.router import detections_router
 from app.api.alerts.router import alerts_router
 from app.api.correlation.router import correlation_router
 from app.api.mitre.router import mitre_router
+from app.api.incidents.router import router as incidents_router
 from app.db.session import Base, engine
 from app.db.init_db import init_database
 
@@ -93,6 +94,7 @@ app.include_router(detections_router, prefix="/api/v1", tags=["detections"])
 app.include_router(alerts_router, prefix="/api/v1", tags=["alerts"])
 app.include_router(correlation_router, prefix="/api/v1", tags=["correlation"])
 app.include_router(mitre_router, prefix="/api/v1", tags=["mitre"])
+app.include_router(incidents_router, prefix="/api/v1", tags=["incidents"])
 
 
 
