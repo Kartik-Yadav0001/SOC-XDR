@@ -25,6 +25,7 @@ from app.api.correlation.router import correlation_router
 from app.api.mitre.router import mitre_router
 from app.api.incidents.router import router as incidents_router
 from app.api.soar.router import router as soar_router
+from app.api.intel.router import router as intel_router
 from app.db.session import Base, engine
 from app.db.init_db import init_database
 
@@ -97,6 +98,7 @@ app.include_router(correlation_router, prefix="/api/v1", tags=["correlation"])
 app.include_router(mitre_router, prefix="/api/v1", tags=["mitre"])
 app.include_router(incidents_router, prefix="/api/v1", tags=["incidents"])
 app.include_router(soar_router, prefix="/api/v1", tags=["soar"])
+app.include_router(intel_router, prefix="/api/v1", tags=["intel"])
 
 
 
