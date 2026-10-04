@@ -117,10 +117,11 @@ def get_current_active_user(
 class RoleChecker:
     """RBAC dependency to enforce permitted roles."""
     def __init__(self, allowed_roles: List[str]):
-        self.allowed_roles = allowed_roles
+        self.allowed_roles = [r.upper() for r in allowed_roles]
 
     def __call__(self, current_user: User = Depends(get_current_active_user)) -> User:
-        if current_user.role not in self.allowed_roles:
+        user_role = (current_user.role or "").upper()
+        if user_role not in self.allowed_roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Role '{current_user.role}' is not authorized to access this resource. Permitted roles: {self.allowed_roles}"

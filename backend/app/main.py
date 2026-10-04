@@ -28,6 +28,8 @@ from app.api.soar.router import router as soar_router
 from app.api.intel.router import router as intel_router
 from app.api.search.router import router as search_router
 from app.api.tenants.router import router as tenants_router
+from app.api.analytics.router import router as analytics_router
+from app.api.websockets.router import router as ws_router
 from app.db.session import Base, engine
 from app.db.init_db import init_database
 
@@ -103,6 +105,8 @@ app.include_router(soar_router, prefix="/api/v1", tags=["soar"])
 app.include_router(intel_router, prefix="/api/v1", tags=["intel"])
 app.include_router(search_router, prefix="/api/v1", tags=["search"])
 app.include_router(tenants_router, prefix="/api/v1", tags=["tenants"])
+app.include_router(analytics_router, prefix="/api/v1", tags=["analytics"])
+app.include_router(ws_router, prefix="/api/v1", tags=["websockets"])
 
 
 
