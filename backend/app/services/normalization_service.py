@@ -14,6 +14,7 @@ def normalize_event_payload(raw_payload: Dict[str, Any]) -> Dict[str, Any]:
     if "source" in raw_payload and "event" in raw_payload and isinstance(raw_payload.get("source"), dict):
         event_id = raw_payload.get("event_id") or f"evt-{uuid.uuid4().hex[:8]}"
         timestamp = raw_payload.get("timestamp") or datetime.now(timezone.utc).isoformat()
+        proc_obj = raw_payload.get("process", {}) if isinstance(raw_payload.get("process"), dict) else {}
         return {
             "event_id": event_id,
             "timestamp": timestamp,
@@ -21,9 +22,9 @@ def normalize_event_payload(raw_payload: Dict[str, Any]) -> Dict[str, Any]:
             "event": raw_payload.get("event", {"type": "unknown", "severity": "medium"}),
             "principal": raw_payload.get("principal", {}),
             "network": raw_payload.get("network", {}),
-            "process_name": raw_payload.get("process_name"),
-            "command_line": raw_payload.get("command_line"),
-            "file_hash": raw_payload.get("file_hash"),
+            "process_name": raw_payload.get("process_name") or proc_obj.get("name") or proc_obj.get("process_name"),
+            "command_line": raw_payload.get("command_line") or proc_obj.get("command_line"),
+            "file_hash": raw_payload.get("file_hash") or proc_obj.get("file_hash"),
             "domain": raw_payload.get("domain"),
             "endpoint_id": raw_payload.get("endpoint_id"),
             "raw": raw_payload.get("raw", raw_payload),

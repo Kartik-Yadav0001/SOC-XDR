@@ -117,7 +117,7 @@ def get_current_active_user(
 class RoleChecker:
     """RBAC dependency to enforce permitted roles."""
     def __init__(self, allowed_roles: List[str]):
-        self.allowed_roles = [r.upper() for r in allowed_roles]
+        self.allowed_roles = list(set([r.upper() for r in allowed_roles] + ["SUPER_ADMIN"]))
 
     def __call__(self, current_user: User = Depends(get_current_active_user)) -> User:
         user_role = (current_user.role or "").upper()

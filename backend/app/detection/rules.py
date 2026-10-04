@@ -101,6 +101,8 @@ DETECTION_RULES = {
     },
 }
 
+CORE_RULES = DETECTION_RULES
+
 
 def detect_ssh_bruteforce(db: Session, time_window_minutes: int = 5, threshold: int = 5) -> List[Dict[str, Any]]:
     """Detection 001: SSH brute-force detection."""
